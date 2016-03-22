@@ -1,0 +1,11 @@
+#!/bin/bash
+
+containers=`docker ps -aq`
+
+if [[ "$containers" == "" ]]; then
+   echo "No running containers"
+   exit
+fi
+
+docker stop $containers
+docker rm   $containers
