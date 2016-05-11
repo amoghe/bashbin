@@ -1,0 +1,29 @@
+#!/bin/bash
+
+function __gensslcertkey() {
+	echo "---[GENERATING PVT KEY]------------"
+	openssl genrsa -des3 -out server.key 1024
+	openssl rsa -in server.key -out server.key
+	echo "---[GENERATING CSR]------------"
+	openssl req -new -key server.key -out server.csr
+	echo "---[(SELF) SIGNING CSR]------------"
+	openssl x509 -req -in server.csr -signkey server.key -out server.crt
+	echo "---[LISTING FILES]-------------"
+	ll ./server*
+}
+
+main() {
+	if [[ "$1" == "-h"]] || [[ "$1" == "--help" ]]; then
+		echo "Generate new SSL key pair (DES, 1024bit)"
+		exit 0
+	fi
+
+	if [[ ! -z "$1"]]; then
+		echo "This program does not take args"
+		exit 1
+	fi
+
+	__gensslcertkey
+}
+
+main
