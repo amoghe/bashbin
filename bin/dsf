@@ -1,4 +1,4 @@
-#!/usr/bin/ruby
+#!/usr/bin/env ruby
 
 def prune(dir, verbose=true)
   output = `find #{dir} -name '*~' -print -delete`
