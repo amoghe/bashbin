@@ -18,7 +18,7 @@ PATH="$PATH:$GOPATH/bin"
 # Source funcs from bindir
 if [ -d "$HOME/bashbin" ]; then
    echo "Sourcing additional funcs from bashbin/funcs"
-   source $HOME/bashbin/funcs/*
+   for f in `ls $HOME/bashbin/funcs/*`; do source $f; done
    echo "Adding bashbin bins to PATH"
    PATH="$HOME/bashbin/bin:$PATH"
 fi
