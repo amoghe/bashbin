@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# docker
+alias docker-killall='docker rm   $(docker ps -a -q)'
+alias docker-stopall='docker stop --time=3 $(docker ps -a -q)'
+
+# Go stuff
+# Add GOPATH/bin so that go binaries are on our path
+export GOPATH="$HOME/go"
+PATH="$PATH:$GOPATH/bin"
+
+#
+# initialize the shell
+#
+
+# Add our bindir to PATH and save off a copy of this "clean" path
+
+# Source funcs from bindir
+if [ -d "$HOME/bashbin" ]; then
+   echo "Sourcing additional funcs from bashbin/funcs"
+   source $HOME/bashbin/funcs/*
+   echo "Adding bashbin bins to PATH"
+   PATH="$HOME/bashbin/bin:$PATH"
+fi
+
+# Ruby manager
+PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
+
+# Remember "clean path"
+_CLEAN_PATH=$PATH
