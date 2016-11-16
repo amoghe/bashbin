@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # This file should be sourced since it expects to modify the calling shell environment
 #
 # Change go(lang) versions easily
