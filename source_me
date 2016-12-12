@@ -15,11 +15,11 @@ fi
 
 # Bash stuff
 # Source funcs and add bin dir to our path
-if [ -d "$HOME/bashbin" ]; then
-   echo "bashext detected!"
-   for f in `ls $HOME/bashbin/funcs/*`; do source $f; done
-   PATH="$HOME/bashbin/bin:$PATH"
+if [ -d "$HOME/bashext" ]; then
+    for f in `ls $HOME/bashext/funcs/*`; do source $f; done
+    PATH="$HOME/bashext/bin:$PATH"
 fi
 
 # Remember this as our "clean path"
 _CLEAN_PATH=$PATH
+
