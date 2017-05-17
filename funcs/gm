@@ -4,13 +4,21 @@
 #
 # Change go(lang) versions easily
 
+function __gimme_debug() {
+    echo "[DEBUG] $@" > /dev/null # Remove redirect to enable this
+}
+
+function __gimme_error() {
+    echo "[ERROR] $@" 1>&2
+}
+
 function gm() {
     GIMME_PATH=`which gimme`
     [ -z $1 ] && {
-	echo "No golang version specified"
-	exit 1
+	__gimme_error "ERROR: No golang version specified"
+	return
     }
-    echo "Switching go version to: $1"
+    __gimme_debug "Switching go version to: $1"
 
     new_path=""
 
@@ -29,6 +37,7 @@ function gm() {
 	new_path=$_CLEAN_PATH
     fi
 
+    __gimme_debug "setting PATH as $new_path"
     export PATH=$new_path
 
     # Invoke gimme (not necessary if the go version is already installed)
@@ -37,10 +46,11 @@ function gm() {
     # Test if the env file exists
     env_file="$HOME/.gimme/envs/go$1.env"
     if [ ! -f "$env_file" ]; then
-	echo "go version $1 isn't installed (no $env_file)"
-	exit 1
+	__gimme_error "ERROR: go version $1 isn't installed (no $env_file)"
+	return
     fi
 
     # Now source the file that will set up our env in the calling shell
+    __gimme_debug "Sourcing $env_file"
     source "$env_file"
 }
