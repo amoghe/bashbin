@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Go stuff
+# - - - Go stuff - - - - - - -
 # Add GOPATH/bin so that go binaries are on our path
 export GOPATH="$HOME/go"
 PATH="$PATH:$GOPATH/bin"
 
-# Ruby stuff
+# - - - Ruby stuff - - - - - - -
 # Add rbenv bin to our path if it is installed
 _rbenv=`which rbenv`
 if [ ! -z $_rbenv ]; then
@@ -13,13 +13,15 @@ if [ ! -z $_rbenv ]; then
     eval "$(rbenv init -)"
 fi
 
-# Bash stuff
+# - - - Bash stuff - - - - - - -
 # Source funcs and add bin dir to our path
 if [ -d "$HOME/bashext" ]; then
     for f in `ls $HOME/bashext/funcs/*`; do source $f; done
     PATH="$HOME/bashext/bin:$PATH"
 fi
 
-# Remember this as our "clean path"
-_CLEAN_PATH=$PATH
-
+# - - - $PATH stuff - - - - - - -
+# Remember this as our "clean path" (if we haven't already)
+if [ -z $_CLEAN_PATH ]; then
+    _CLEAN_PATH=$PATH
+fi
