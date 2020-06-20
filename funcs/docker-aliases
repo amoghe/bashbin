@@ -1,6 +1,8 @@
 #!/bin/bash
 
-# aliases
+# aliases/shorthand for docker commands that need no input args
+# (and hence are not "commands" under bin)
+
 alias docker-killall='docker rm   $(docker ps -a -q)'
 alias docker-stopall='docker stop --time=3 $(docker ps -a -q)'
 alias docker-none-images='docker images | grep none | tr -s " " | cut -d " " -f3 | tr -s "\n" " "'

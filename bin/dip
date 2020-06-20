@@ -6,8 +6,8 @@ function dip() {
     cid=$1
 
     if [ -z "$cid" ]; then
-	echo "No container ID specified"
-	return
+	    echo "No container ID specified"
+	    return
     fi
 
     docker inspect --format='{{ .NetworkSettings.IPAddress }}' $cid
