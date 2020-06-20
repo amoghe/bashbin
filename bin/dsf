@@ -1,42 +1,36 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env python
 
-def prune(dir, verbose=true)
-  output = `find #{dir} -name '*~' -print -delete`
-  puts output if verbose
-end
+import argparse
+import os
+import subprocess
+import sys
 
-def usage(do_exit=true, code=0)
-  STDERR.puts('Prune backup (*~) files from the specified dirs.')
-  STDERR.puts('If no dirs are specified, prune the current dir (./)')
-  STDERR.puts('')
-  STDERR.puts("  Usage:")
-  STDERR.puts("\t#{File.basename(__FILE__)} [dir1 dir2... dirN]")
-  STDERR.puts('')
-  STDERR.puts('  Args:')
-  STDERR.puts("\tdirs: [optional] Directories from which to prune backup files")
-  STDERR.puts('')
 
-  exit() if do_exit
-end
+def prune(dir, verbose=True):
+    '''
+    prune specified dir
+    '''
+    cmd = "find %s -name '*~' -print -delete" % dir
+    subprocess.check_call(cmd, stdout=sys.stdout, shell=True)
 
-# # # # #
-# main()
-#
-if __FILE__ == $0
 
-  # If no args specifed, prune the current dir
-  if ARGV.empty?
-    ARGV << "./"
-  end
+def main():
+    '''
+    main()
+    '''
+    parser = argparse.ArgumentParser(description='Clean tilde files in subdirs')
+    parser.add_argument('dir_paths',
+                        metavar='DIR_PATH',
+                        type=str,
+                        nargs='+',
+                        help='dirs to prune')
+    args = parser.parse_args()
+    for d in args.dir_paths:
+        if not os.path.isdir(d):
+            continue
+        print(">> Pruning %s" % d)
+        prune(d)
 
-  # If -h or --help were included, print usage
-  if ARGV.include?('-h') or ARGV.include?('--help')
-    usage(true)
-  end
 
-  # Else run the prune on all dirs
-  ARGV.each do |dir|
-    prune(dir)
-  end
-
-end
+if __name__ == "__main__":
+    main()
